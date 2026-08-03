@@ -36,6 +36,8 @@ interface Config {
   defaultProjectKey?: string;
 }
 
+const DEFAULT_API_URL = 'https://app.trovy.app';
+
 function loadConfig(): Config {
   if (!existsSync(CONFIG_PATH)) return {};
   try {
@@ -52,7 +54,7 @@ function saveConfig(cfg: Config) {
 
 function getClient(): TrovyClient {
   const cfg = loadConfig();
-  const apiUrl = process.env.TROVY_API_URL ?? cfg.apiUrl ?? 'http://localhost:3000';
+  const apiUrl = process.env.TROVY_API_URL ?? cfg.apiUrl ?? DEFAULT_API_URL;
   const token = process.env.TROVY_TOKEN ?? cfg.token;
   if (!token) {
     error('Not logged in. Run `trovy login` first or set TROVY_TOKEN.');
@@ -112,7 +114,7 @@ program
   .option('--api-url <url>', 'Override the API URL')
   .action(async (opts) => {
     const cfg = loadConfig();
-    const apiUrl = opts.apiUrl ?? process.env.TROVY_API_URL ?? cfg.apiUrl ?? 'http://localhost:3000';
+    const apiUrl = opts.apiUrl ?? process.env.TROVY_API_URL ?? cfg.apiUrl ?? DEFAULT_API_URL;
 
     process.stdout.write(chalk.bold('\nTrovy CLI\n\n'));
     process.stdout.write(
