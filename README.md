@@ -19,13 +19,13 @@ trovy login
 
 ## Setup
 
-Generate a personal-access token at `https://<your-trovy-host>/settings/api-tokens`.
+Generate a personal-access token at `https://app.trovy.app/settings/api-tokens`.
 
 Then:
 
 ```bash
 npx @trovyhq/cli login
-# Enter your API URL (default http://localhost:3000) and paste the tfp_… token.
+# Enter your API URL (default https://app.trovy.app) and paste the tfp_… token.
 ```
 
 Config lives at `~/.config/trovy/config.json` (XDG-style), mode `0600`.
@@ -33,7 +33,7 @@ Config lives at `~/.config/trovy/config.json` (XDG-style), mode `0600`.
 You can also set env vars instead:
 
 ```bash
-export TROVY_API_URL=https://trovy.app
+export TROVY_API_URL=https://app.trovy.app
 export TROVY_TOKEN=tfp_xxxxxxxxxxxx
 ```
 
