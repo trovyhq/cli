@@ -25,7 +25,7 @@ Then:
 
 ```bash
 npx @trovyhq/cli login
-# Enter your API URL (default https://app.trovy.app) and paste the tfp_… token.
+# Enter your API URL (default https://api.trovy.app) and paste the tfp_… token.
 ```
 
 Config lives at `~/.config/trovy/config.json` (XDG-style), mode `0600`.
@@ -33,9 +33,13 @@ Config lives at `~/.config/trovy/config.json` (XDG-style), mode `0600`.
 You can also set env vars instead:
 
 ```bash
-export TROVY_API_URL=https://app.trovy.app
+export TROVY_API_URL=https://api.trovy.app
 export TROVY_TOKEN=tfp_xxxxxxxxxxxx
 ```
+
+`TROVY_APP_URL` is optional and defaults to `https://app.trovy.app`. Set it
+only for a self-hosted deployment with a distinct web application URL; it is
+used for the token-management and `--open` browser links.
 
 ## Commands
 
