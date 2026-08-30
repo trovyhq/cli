@@ -36,7 +36,12 @@ interface Config {
   defaultProjectKey?: string;
 }
 
-const DEFAULT_API_URL = 'https://app.trovy.app';
+const DEFAULT_API_URL = 'https://api.trovy.app';
+const DEFAULT_APP_URL = 'https://app.trovy.app';
+
+function getAppUrl(): string {
+  return (process.env.TROVY_APP_URL ?? DEFAULT_APP_URL).replace(/\/$/, '');
+}
 
 function loadConfig(): Config {
   if (!existsSync(CONFIG_PATH)) return {};
@@ -118,7 +123,7 @@ program
 
     process.stdout.write(chalk.bold('\nTrovy CLI\n\n'));
     process.stdout.write(
-      `Generate a token at ${chalk.cyan(apiUrl + '/settings/api-tokens')} then paste it below.\n\n`
+      `Generate a token at ${chalk.cyan(getAppUrl() + '/settings/api-tokens')} then paste it below.\n\n`
     );
 
     const tokenInput = await password({
@@ -250,8 +255,7 @@ async function doCreate(
     process.stdout.write(`  ${chalk.dim('id')}     ${task.id}\n`);
     process.stdout.write(`  ${chalk.dim('status')} ${task.status}\n`);
     if (opts.open) {
-      const apiUrl = (tf as any).apiUrl.replace(/\/api$/, '');
-      const url = `${apiUrl}/projects/${task.projectId}/tasks/${task.id}`;
+      const url = `${getAppUrl()}/projects/${task.projectId}/tasks/${task.id}`;
       process.stdout.write(chalk.cyan(`  ${url}\n`));
     }
   } catch (e: any) {
