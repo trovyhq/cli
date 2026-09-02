@@ -589,10 +589,17 @@ program
       const { taskId } = await resolveAnyTask(tf, ref);
       const { taskId: otherId } = await resolveAnyTask(tf, otherRef);
       if (act === 'add') {
-        await tf.addDependency(taskId, otherId);
+        await tf.addDependency(otherId, taskId);
         ok(`${ref} is now blocked by ${otherRef}`);
       } else {
-        await tf.removeDependency(taskId, otherId);
+        const dependencies = await tf.listDependencies(taskId);
+        const dependency = dependencies.find(
+          (candidate) => candidate.sourceTaskId === otherId && candidate.targetTaskId === taskId
+        );
+        if (!dependency) {
+          throw new TrovyError(`${otherRef} is not a blocker of ${ref}`, 404);
+        }
+        await tf.removeDependency(dependency.id);
         ok(`Removed blocker ${otherRef} from ${ref}`);
       }
     } catch (e: any) {
